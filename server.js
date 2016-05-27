@@ -7,6 +7,9 @@ var app = express();
 var db = require('./models');
 var bodyParser = require('body-parser');
 
+app.engine("ejs", require("ejs").renderFile);
+app.set("view engine", "ejs");
+
 // serve static files from public folder
 app.use(express.static(__dirname + '/public'));
 
@@ -21,7 +24,11 @@ app.use(bodyParser.urlencoded({extended: true}));
  */
 
 app.get('/', function homepage (req, res) {
-  res.sendFile(__dirname + '/views/index.html');
+  //res.sendFile(__dirname + '/views/index.html');
+  db.Album.find({}, function(err, data){
+    if (err){ res.json({message: "Error: ", err}) }
+      res.render('index', {albums: data});
+  });
 });
 
 
@@ -47,7 +54,10 @@ app.get('/api/albums', function album_index(req, res){
 });
 
 app.post('/api/albums', function(req, res){
-  db.Album.create({name: req.body.name, artistName: req.body.artistName, releaseDate: req.body.releaseDate, genres: req.body.genres});
+  db.Album.create({name: req.body.name, artistName: req.body.artistName, releaseDate: req.body.releaseDate, genres: req.body.genres},
+    function(error, albums){
+      res.redirect("/");
+    });
 })
 
 /**********
