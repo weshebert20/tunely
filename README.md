@@ -8,13 +8,13 @@
 ![alt text](https://media.giphy.com/media/3oEjHIxD6j01Q8ZWbm/giphy.gif "Kanye")
 
 
-Kanye has ideas, but he needs more resources!! That's where you come in. We all know people only use 20% of their brain, but kanye uses 100%.
-He needs the space in his brain that he’s currently using to remember the worlds greatest album collection (kanye’s own collection) so he can solve cancer. or something.
+Kanye has ideas, but he needs more resources!! That's where you come in. We all know people only use 20% of their brain, but Kanye uses 100%.
+He needs the space in his brain that he’s currently using to remember the world's greatest album collection (Kanye’s own collection) so he can solve cancer. Or something.
 Kanye needs a single page web app to list all of the albums in his collection and a way to add more when he drops new ones.
 If you accomplish this task, I'm told he will "love you like Kanye loves Kanye"... which as we know... is a lot.
 
 
-Full stack JavaScript Application.
+## Full stack JavaScript Application
 
 Prerequisites:
 * jQuery, AJAX
@@ -24,7 +24,7 @@ Prerequisites:
 * Bootstrap - the lab will introduce modals
 * CRUD with mongoose
   * mongoose embedded relationships
-  * Part 3: mongoose references
+  * mongoose references
 
 ## Overview
 
@@ -94,5 +94,6 @@ In the above you can see we're building a site that displays a list of musical a
 
 [Sprint 6: update song info & delete songs](/docs/sprint6.md)
 
-
+<!--
 ### Module C: Full CRUD with Mongo and reference relationships.
+-->
