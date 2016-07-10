@@ -14,22 +14,7 @@ This sprint we will:
 
 > Note: as we go through this if you get stuck make use of the hints, your neighbors and the solutions.
 
-> You must complete all of the previous sprint before starting this sprint. (excludes stretch challenges)  If you have not done so, see below:
-
-### Switching to solutions
-
-**If you have not completed sprints 1-3 yet, it is strongly advised that you save your work and checkout the solution branch (3) to get started.**
-
-1. First git add and commit any current changes.
-
-1. Then checkout the solutions branch:
-
-> `git checkout solutions_sprint_3`
-
-1. Then create a new branch from this:
-
-> `git checkout -b sprint4`
-
+> You must complete all of the previous sprint before starting this sprint. (excludes stretch challenges)
 
 ## Step 1: Delete button
 
