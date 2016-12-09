@@ -23,6 +23,9 @@ Now would be a great time to explore the files provided for you.  In particular 
 ### Working through the lab
 
 Use nodemon throughout the exercise to run your server. Don't forget to run npm install after your forked and cloned this repo if you do not see the node_modules folder.
+
+When you run nodemon, you should see where your Express server is running in the Terminal.  You should use this address in your browser to test your progress.
+
 Continually verify that your browser console is displaying the `app.js loaded!` message on document-ready.
 
 ## Step 1:
