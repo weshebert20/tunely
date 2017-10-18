@@ -1,94 +1,96 @@
-/* CLIENT-SIDE JS
- *
- * You may edit this file as you see fit.  Try to separate different components
- * into functions and objects as needed.
- *
- */
-
-
-/* hard-coded data! */
-var sampleAlbums = [];
-sampleAlbums.push({
-             artistName: 'Ladyhawke',
-             name: 'Ladyhawke',
-             releaseDate: '2008, November 18',
-             genres: [ 'new wave', 'indie rock', 'synth pop' ]
-           });
-sampleAlbums.push({
-             artistName: 'The Knife',
-             name: 'Silent Shout',
-             releaseDate: '2006, February 17',
-             genres: [ 'synth pop', 'electronica', 'experimental' ]
-           });
-sampleAlbums.push({
-             artistName: 'Juno Reactor',
-             name: 'Shango',
-             releaseDate: '2000, October 9',
-             genres: [ 'electronic', 'goa trance', 'tribal house' ]
-           });
-sampleAlbums.push({
-             artistName: 'Philip Wesley',
-             name: 'Dark Night of the Soul',
-             releaseDate: '2008, September 12',
-             genres: [ 'piano' ]
-           });
-/* end of hard-coded data */
-
-
+/* CLIENT-SIDE JS */
 
 
 $(document).ready(function() {
   console.log('app.js loaded!');
 
-  //get route
-  $.get('/api/albums', function(res){
-    res.forEach(function(album){
+// Gets all the albums from the DB and appends them to the page
+  $.get('/api/albums', function(albums) {
+    albums.forEach(function(album) {
+    renderAlbum(album);  
+   });
+  });
+// Submits a new album to the DB and renders it onto the page
+  $('#album-form').submit(function() {
+    event.preventDefault();
+    console.log(this);
+    var formData = $(this).serialize();
+    console.log(formData);
+    $(this).trigger("reset");
+    $.post('/api/albums', formData, function(album) {
+      console.log(album);
       renderAlbum(album);
     });
   });
 
-
-  $('#album-form').submit(function(event){
-    event.preventDefault();
-    //takes the data and puts it into URL format
-    var formdata = $(this).serialize();
-
-    //post route
-    $.post('/api/albums', formdata, function(album){
-    renderAlbum(album);
-    });
-
-    //resets the forms
-    $(this).trigger("reset");
-  });
-
-  //adds the modal (pop-up) for Add Song button
-  $('#albums').on('click', '.add-song', function() {
-    var id= $(this).parents('.album').data('album-id');
-
+  $('#albums').on('click', '.add-song', function(e) {
+    console.log('Did a thing');
+    var id = $(this).parents('.album').data('album-id');
+    console.log('id', id);
     $('#songModal').data('album-id', id);
-
     $('#songModal').modal();
   });
 
+    $('#saveSong').on('click', handleNewSongSubmit);
+      console.log(handleNewSongSubmit);
+
 });
 
+// handles the submit on the modal and POST the form data as a new song
+function handleNewSongSubmit(e) {
+  var albumId = $('#songModal').data('album-id');
+  var songName = $('#songName').val();
+  var trackNumber = $('#trackNumber').val();
+
+  var formData = {
+    name: songName,
+    trackNumber: trackNumber
+  };
+
+  var postUrl = '/api/albums/' + albumId + '/songs';
+  console.log('posting to ', postUrl, ' with data ', formData);
+
+  $.post(postUrl, formData)
+    .success(function(song) {
+      console.log('song', song);
+
+      // re-get full album and render on page
+      $.get('/api/albums/' + albumId).success(function(album) {
+        //remove old entry
+        $('[data-album-id='+ albumId + ']').remove();
+        // render a replacement
+        $('#albums').empty();
+        renderAlbum(album);
+
+      });
+
+      //clear form
+      $('#songName').val('');
+      $('#trackNumber').val('');
+      $('#songModal').modal('hide');
+
+    });
+}
+
+// Function to build the songs
 function buildSongsHtml(songs) {
-  var songText = "    &ndash; ";
+  var songText = " &ndash; ";
   songs.forEach(function(song) {
-    songText = songText + "(" + song.trackNumber + ") " + song.name + " &ndash; ";
+    songText = songText + " (" + song.trackNumber + ") " + song.name + " &ndash;";
   });
-  var songsHtml  =
-   "                      <li class='list-group-item'>" +
+
+  var songsHtml = 
+   "                     <li class='list-group-item'>" +
    "                        <h4 class='inline-header'>Songs:</h4>" +
    "                         <span>" + songText + "</span>" +
    "                      </li>";
-  return songsHtml;
+   return songsHtml;
 }
+
 
 // this function takes a single album and renders it to the page
 function renderAlbum(album) {
-  console.log('rendering album:', album);
+  // console.log('rendering album:', album);
 
   var albumHtml =
   "        <!-- one album -->" +
@@ -109,13 +111,15 @@ function renderAlbum(album) {
   "                      </li>" +
   "                      <li class='list-group-item'>" +
   "                        <h4 class='inline-header'>Artist Name:</h4>" +
-  "                        <span class='artist-name'>" +  album.artistName+ "</span>" +
+  "                        <span class='artist-name'>" +  album.artistName + "</span>" +
   "                      </li>" +
   "                      <li class='list-group-item'>" +
   "                        <h4 class='inline-header'>Released date:</h4>" +
   "                        <span class='album-releaseDate'>" + album.releaseDate + "</span>" +
   "                      </li>" +
-                        buildSongsHtml(album.song) +
+
+  buildSongsHtml(album.songs) +
+
   "                    </ul>" +
   "                  </div>" +
   "                </div>" +
@@ -124,16 +128,17 @@ function renderAlbum(album) {
   "              </div>" + // end of panel-body
 
   "              <div class='panel-footer'>" +
-  "                <button class='btn btn-primary add-song'>Add Song</button>" +
+  "                 <button class='btn btn-primary add-song'>Add Song</button>" +
   "              </div>" +
 
   "            </div>" +
   "          </div>" +
   "          <!-- end one album -->";
-  // render to the page with jQuery
-$("#albums").append(albumHtml);
-}
 
+  // render to the page with jQuery
+  $("#albums").append(albumHtml);
+
+}
 
 
 
