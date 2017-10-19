@@ -1,4 +1,3 @@
-
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var Song = require('./song.js');
@@ -14,6 +13,5 @@ let AlbumSchema = new Schema({
 let Album = mongoose.model('Album', AlbumSchema);
 
 module.exports = Album;
-
 
 

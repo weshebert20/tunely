@@ -26,26 +26,20 @@
     </div>
 
     <section class="container">
-      <div class="row">
-        <form action="api/albums" method:"POST" id="album-form">
-        <input type="text" placeholder="which album?" name="name">
-        <input type="text" placeholder="which Kanye?" name="artistName">
-        <input type="text" placeholder="when released?" name="releaseDate">
-        <input type="text" placeholder="which genres" name="genres">
-        <input type="submit">
-        </form>
+            <div class="row">
+                <form id="albumform">
+                  <input type="text" placeholder="which Kanye" name="artistName">
+                  <input type="text" placeholder="which album" name="name">
+                  <input type="text" placeholder="when was it released" name="releaseDate">
+                  <input type="text" placeholder="which genre" name="genres">
+                  <input type="submit">
+                </form>
+         </div>
       </div>
-    </section>
-
-    <section class="container">
-      <div class="row">
         <div class="col-md-10 col-md-offset-1">
           <h2>Albums</h2>
-        </div>
-      </div>
       <!-- albums! -->
       <div id='albums'>
-
 
 
       </div>

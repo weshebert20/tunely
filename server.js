@@ -7,7 +7,7 @@ var app = express();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
-// serve static files from public folder
+
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -21,18 +21,12 @@ var db = require('./models');
  * ROUTES *
  **********/
 
-/*
- * HTML Endpoints
- */
 
 app.get('/', function homepage (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
 
-/*
- * JSON API Endpoints
- */
 
 app.get('/api', function api_index (req, res){
   res.json({
@@ -101,4 +95,3 @@ app.post('/api/albums/:albumId/songs', function songsCreate(req, res) {
 app.listen(process.env.PORT || 3000, function () {
   console.log('Express server is running on http://localhost:3000/');
 });
-
